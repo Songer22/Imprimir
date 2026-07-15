@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 
 
@@ -173,7 +173,7 @@ $hora_actual = date("h:i:s");
 
 
 // Create connection
-$conn = mysqli_connect('127.0.0.1', 'alumnos', 'AlumnosFCF', 'forestales2');
+$conn = mysqli_connect('127.0.0.1', 'alumnos', 'AlumnosFCF', 'forestales');
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());

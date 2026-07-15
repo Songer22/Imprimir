@@ -82,9 +82,8 @@
         <h2>Subir Documento</h2>
         <form id="formuploadajax" method="post" enctype="multipart/form-data">
             <label for="fileInput" class="file-label">Seleccionar archivo</label>
-            <input type="file" class="file-input" name="archivo" id="fileInput" onchange="updateFileName();">
+            <input type="file" class="file-input" name="archivo" id="fileInput" required onchange="updateFileName();">
             <input type="submit" class="btn-upload" value="Subir Documento" name="submit">
-            <p hidden id="text_input_vacio" style="color:red; font-size:9px">Debes seleccionar un documento para subir</p>
         </form>
         <div id="fileDisplayArea" class="file-display-area"></div>
     </div>
@@ -92,18 +91,13 @@
     <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-
-      
         $("#formuploadajax").on("submit", function(e){
             e.preventDefault();
 
             var formData = new FormData(document.getElementById("formuploadajax"));
             formData.append("dato", "valor");
-            
-            let files = $("#fileInput")[0].files.length;
-            if (files != 0) {
-              // 
-              $.ajax({
+
+            $.ajax({
                 url: "subir_documento.php",
                 type: "post",
                 dataType: "html",
@@ -111,34 +105,25 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-              }).done(function(resp){
-                  $("#fileInput").val('');
-                  console.log(resp);
-                  fileDisplayArea.innerHTML = '';
+            }).done(function(resp){
+                $("#fileInput").val('');
+                console.log(resp);
+                fileDisplayArea.innerHTML = '';
 
-                  swal.fire({
-                      position: "center",
-                      icon: "success",
-                      title: "Exito",
-                      // text: "¡¡Se subió un documento con el nombre de "+resp+" !!!",
-                      html: '¡¡Se subió un documento con el nombre de: <br><br>"<b><u>' + resp + '"</b></u>!!!',
-                      showConfirmButton: true,
-                  });
+                swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Exito",
+                    // text: "¡¡Se subió un documento con el nombre de "+resp+" !!!",
+                    html: '¡¡Se subió un documento con el nombre de: <br><br>"<b><u>' + resp + '"</b></u>!!!',
+                    showConfirmButton: true,
+                });
 
-                  hideMessageEmpty();
-
-              }).fail(function(jqXHR, textStatus, errorThrown) {
-                  console.error("Error: " + textStatus + " " + errorThrown);
-                  console.error("Response Text: " + jqXHR.responseText);
-                  alert("Hubo un error al subir el archivo: " + textStatus + " " + errorThrown);
-              });
-
-            } else {
-              // 
-              showMessageEmpty();             
-            }
-
-            
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error("Error: " + textStatus + " " + errorThrown);
+                console.error("Response Text: " + jqXHR.responseText);
+                alert("Hubo un error al subir el archivo: " + textStatus + " " + errorThrown);
+            });
         });
 
         function updateFileName() {
@@ -150,17 +135,6 @@
             } else {
                 fileDisplayArea.innerHTML = '';
             }
-
-            hideMessageEmpty();
-        }
-
-        /*Actualizacion*/
-        function showMessageEmpty(){
-          $('#text_input_vacio').show();
-        }
-
-        function hideMessageEmpty(){
-          $('#text_input_vacio').hide();
         }
     </script>
 </body>
